@@ -10,8 +10,12 @@ $(document).ready(function() {
 
   // create alphabet buttons:
   buttons = $('#buttons');
-  letters = $('<li>');
-  letters.class = 'alphabet';
-
+  letters = $('<ul>').attr("class", "alphabet");
+  for (var i = 0; i < alphabet.length; i++) {
+    list = $('<li>').attr("class", "letter");
+    list.text(alphabet[i]);
+    buttons.append(letters);
+    letters.append(list);
+  }
 
 });
