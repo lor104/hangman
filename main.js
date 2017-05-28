@@ -3,6 +3,9 @@ $(document).ready(function() {
   var allWords = []
     allWords[0] = {word: "Queens", hint: "Located in Kingston, ON, this University holds an immense history within its signature limestone buildings"}
     allWords[1] = {word: "Bitmaker Labs", hint: "A private college in Toronto, ON, that specializes in running bootcamps for tech-related fields"}
+  var hangmanImage = ["images/hangman5.png", "images/hangman4.png", "images/hangman3.png", "images/hangman2.png", "images/hangman1.png", "images/hangman-full.png"]
+  var errors = 0;
+  var guessCorrect = false;
 
   console.log(allWords)
   console.log(allWords[0].word)
@@ -20,7 +23,9 @@ $(document).ready(function() {
     $('<div>').text(guessWord[i]).attr('class', guessWord[i]).appendTo('div.guess')
   }
 
-  
+
+  $('div.hangman-image').append("<img src='images/hangman6.png'></img>");
+
   var guessWordLetterDivs = $('div.guess > div')
 
   // create alphabet buttons:
@@ -36,14 +41,30 @@ $(document).ready(function() {
   //letters turn black when clicked
   $("li.letter").on("click", function(e) {
     letterSelected = $(this).text()
+    guessCorrect = false;
       for (var i = 0; i < guessWordLetterDivs.length; i++) {
         if (guessWordLetterDivs[i].innerHTML === letterSelected) {
           var div = guessWordLetterDivs[i]
-          div.style['color'] = 'black'
-        } else {
+          div.style['color'] = 'black';
+          guessCorrect = true;
         }
+
+      }
+      if (!guessCorrect) {
+          subtractLives();
       }
 
   })
+
+  function subtractLives() {
+    if (errors > 5) {
+      for (var i = 0; i < guessWordLetterDivs.length; i++) { guessWordLetterDivs[i].style['color'] = 'black' }
+    } else {
+    var imageTag = "<img src='" + hangmanImage[errors] + "' ></img>"
+    $('div.hangman-image').html("")
+    $('div.hangman-image').append(imageTag);
+    errors++
+  }}
+
 
 });
