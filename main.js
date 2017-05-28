@@ -1,8 +1,8 @@
 $(document).ready(function() {
   var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
   var allWords = []
-    allWords[0] = {word: "Queens", hint: "Located in Kingston, ON, this University holds an immense history within its signature limestone buildings"}
-    allWords[1] = {word: "Bitmaker Labs", hint: "A private college in Toronto, ON, that specializes in running bootcamps for tech-related fields"}
+    allWords[0] = {word: "Queens University", hint: "Located in Kingston, ON, this University holds an immense history within its signature limestone buildings. I studied here from 2011-2015 and graduated with a major in Fine Arts (specialization in Printmedia) and a minor in mathematics"}
+    allWords[1] = {word: "Bitmaker Labs", hint: "After spending some time after completing my BFA degree, I enrolled in a web development bootcamp at this private college in downtown Toronto. I studied here from March 2017 - May 2017"}
   var hangmanImage = ["images/hangman5.png", "images/hangman4.png", "images/hangman3.png", "images/hangman2.png", "images/hangman1.png", "images/hangman-full.png"]
   var errors = 0;
   var guessCorrect = false;
@@ -15,6 +15,7 @@ $(document).ready(function() {
   // $('.guess').text(allWords[0].word).css("visibility", "hidden")
 
   var round = 0;
+  $('.info').append(allWords[round].hint)
   var guessWord = allWords[round].word.toLowerCase().split("");
   console.log(guessWord)
 
@@ -23,7 +24,7 @@ $(document).ready(function() {
     $('<div>').text(guessWord[i]).attr('class', guessWord[i]).appendTo('div.guess')
   }
 
-
+  // append the starting image
   $('div.hangman-image').append("<img src='images/hangman6.png'></img>");
 
   var guessWordLetterDivs = $('div.guess > div')
@@ -57,13 +58,15 @@ $(document).ready(function() {
   })
 
   function subtractLives() {
+    errors++;
     if (errors > 5) {
+      $('div.hangman-image').html("")
+      $('div.hangman-image').append("<img src='images/hangman-full.png' ></img>")
       for (var i = 0; i < guessWordLetterDivs.length; i++) { guessWordLetterDivs[i].style['color'] = 'black' }
     } else {
-    var imageTag = "<img src='" + hangmanImage[errors] + "' ></img>"
+    var imageTag = "<img src='" + hangmanImage[errors-1] + "' ></img>"
     $('div.hangman-image').html("")
     $('div.hangman-image').append(imageTag);
-    errors++
   }}
 
 
